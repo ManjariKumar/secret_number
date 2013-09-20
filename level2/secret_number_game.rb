@@ -21,14 +21,15 @@ class SecretNumberGame
   def initialize
     @first_name = "Joe"
     @last_name = "Leo"
-    @secret_number = 85
+    @secret_number = 8
     @guesses = 3
   end
 
   def play
     greeting
+    
     @guesses.times do |x|
-      guesses_left = x #Find a way to decrement guesses_left each time through the loop.
+      guesses_left = @guesses - x #Find a way to decrement guesses_left each time through the loop.
       puts "\nYou have #{guesses_left} guesses left!"
       puts "Please make your first guess:"
       players_guess = $stdin.gets.chomp.to_i
@@ -36,9 +37,28 @@ class SecretNumberGame
     end
     puts "You lost! :-( The number to guess was #{@secret_number}."
   end
+
+  def ask_difficulty
+    puts "\nChoose your level of difficulty"
+    puts "\n1. Easy"
+    puts "\n2. Medium"
+    puts "\n3. Hard"
+
+    set_difficulty = $stdin.gets.chomp
+  end
+
+  def set_difficulty(level)
+    if level.downcase == "medium" || level == "2"
+      @guesses = 3
+    elsif level.downcase == "hard" || level == "3"
+      @guesses = 1
+    elsif level.downcase == "easy" || level == "1"
+      @guesses = 5
+    end
+  end
     
   def greet(player_name)
-    "Welcome to Secret Number Game! #{created_by} You will have #{@guesses} to find the secret number." 
+    "Welcome to Secret Number Game! #{created_by} You will have #{@guesses} guesses to find the secret number." 
   end
 
   def created_by
@@ -62,6 +82,7 @@ class SecretNumberGame
 
   def greeting
     puts created_by
+    ask_difficulty
     puts "\nWhat is your name?"
     player_name = $stdin.gets.chomp
     puts greet(player_name)
